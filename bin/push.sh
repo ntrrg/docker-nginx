@@ -24,7 +24,7 @@ push() {
   TAG=${1:-${TAG}}
 
   echo
-  echo "Building ${TAG}.."
+  echo "Uploading ${TAG}.."
   echo
   docker push "ntrrg/nginx:${TAG}"
   echo
