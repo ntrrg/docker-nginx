@@ -1,0 +1,12 @@
+os: linux
+dist: trusty
+sudo: required
+git:
+  depth: 1
+branches:
+  only:
+  - master
+before_script:
+  - docker pull nginx:alpine
+script: bin/build.sh
+after_success: bin/push.sh
