@@ -12,9 +12,9 @@ This is a set of NGINX configurations for specific purposes.
 
 ## TODO
 
-[ ] Test and benchmark images.
-[ ] Add documentation for any image.
-[ ] Add automated tests.
+* Test and benchmark images.
+* Add documentation for any image.
+* Add automated tests.
 
 ## Acknowledgment
 
