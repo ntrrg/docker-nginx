@@ -9,7 +9,7 @@ main() {
     for TAG in ${TAGS}; do
       TAG="$(echo ${TAG} | sed -e "s/\\.\\///")"
 
-      build "${TAG}"
+      build "${TAG}" || return 1
     done
   fi
 }
@@ -20,8 +20,8 @@ build() {
   echo
   echo "Building ${TAG}.."
   echo
-  docker build -t ntrrg/nginx:"${TAG}" "${TAG}" || exit 1
-  docker run --rm "ntrrg/nginx:${TAG}" nginx -t || exit 1
+  docker build -t ntrrg/nginx:"${TAG}" "${TAG}" || return 1
+  docker run --rm "ntrrg/nginx:${TAG}" nginx -t || return 1
   echo
   echo "Done (${TAG})"
 }
