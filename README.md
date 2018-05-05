@@ -1,19 +1,26 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ntrrg/docker-nginx/raw/master/LICENSE)
-[![Build Status](https://travis-ci.org/ntrrg/docker-nginx.svg?branch=master)](https://travis-ci.org/ntrrg/docker-nginx)
 
 This is a set of NGINX configurations for specific purposes.
 
-* [Static files with HTTP](http/)
-* [Static files with HTTP2](http2/)
-* [Single Page Application](spa/)
-* [Multiple Page Application](mpa/)
-* [Reverse proxy](rproxy/)
-* [TPC/UDP reverse proxy](transport-rproxy/)
+* [Static files with HTTP](http/): web pages, SPAs, files hosting or anything
+  without a backend. 
+
+* [Static files with HTTP2](http2/): same as above, but with encryption.
+
+* [Single Page Application](spa/): complex SPAs (backend, prerendering, etc...).
+
+* [Multiple Page Application](mpa/): web frameworks (Django, Ruby on Rails,
+  etc...), CMS, ERP or any web application rendered by a backend.
+
+* [Reverse proxy](rproxy/): redirections, load balancing or any other usage
+  (this one is highly customizable).
+
+* [TPC/UDP reverse proxy](transport-rproxy/): same as above, but in the
+  transport layer (databases, ssh, etc...).
 
 ## TODO
 
-* Test and benchmark images.
-* Add documentation for any image.
+* Benchmark the images.
 * Add automated tests.
 
 ## Acknowledgment
@@ -43,6 +50,10 @@ Working on this project I use/used:
 * [Github](https://github.com)
 
 * [Travis CI](https://travis-ci.org)
+
+* [Termux](https://termux.com)
+
+* [Vim](https://www.vim.org/)
 
 **NGINX Team.** *nginx documentation.* http://nginx.org/en/docs/
 
