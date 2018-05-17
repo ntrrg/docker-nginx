@@ -27,7 +27,7 @@ All the configurations can be tweaked, but since this image is intended for
 serving MPAs, if some advanced configurations are needed, they are out of
 scope, use [Reverse Proxy](../rproxy) instead.
 
-### Disable HTTP cache
+### Disable HTTP cache (static)
 
 ```sh
 echo "expires 0;" > disable-http-cache.conf
@@ -40,7 +40,7 @@ docker run \
 ntrrg/nginx:mpa
 ```
 
-### Disable compression
+### Disable compression (static)
 
 ```sh
 echo "gzip off;" > disable-gzip.conf
@@ -53,7 +53,7 @@ docker run \
 ntrrg/nginx:mpa
 ```
 
-### Enable authentication
+### Enable authentication (dynamic)
 
 ```sh
 cat <<EOF > enable-auth.conf
@@ -74,12 +74,31 @@ docker run \
 ntrrg/nginx:mpa
 ```
 
-### Set custom upstream
+### Cache zone behavior (dynamic)
+
+#### Disable cache zone
+
+```sh
+echo > disable-proxy-cache.conf
+```
+
+```sh
+docker run \
+  --network host \
+  -v ${PWD}/disable-proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
+ntrrg/nginx:mpa
+```
+
+#### Set custom cache key
+
+#### Set custom options 
+
+### Set custom upstream (dynamic)
 
 #### Different port
 
 ```sh
-echo "127.0.0.1:8080;" > upstream.conf
+echo "server 127.0.0.1:8080;" > upstream.conf
 ```
 
 ```sh
@@ -92,13 +111,15 @@ ntrrg/nginx:mpa
 #### UNIX Domain Sockets
 
 ```sh
-echo "unix:///run/app.sock;" > upstream.conf
+echo "server unix:/run/app.sock;" > upstream.conf
 ```
 
 ```sh
 docker run \
-  --network host \
+  -p 80:80 \
+  -p 443:443 \
   -v ${PWD}/upstream.conf:/etc/nginx/conf.d/upstream.conf \
+  -v /path/to/socket:/run/app.sock \
 ntrrg/nginx:mpa
 ```
 
@@ -106,9 +127,9 @@ ntrrg/nginx:mpa
 
 ```sh
 echo '
-127.0.0.1:3000;
-unix:///run/app.sock;
-127.0.0.1:3001;' > upstream.conf
+server 127.0.0.1:3000;
+server unix:/run/app.sock;
+server 127.0.0.1:3001;' > upstream.conf
 ```
 
 ```sh
