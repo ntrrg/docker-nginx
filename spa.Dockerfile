@@ -1,5 +1,6 @@
 FROM nginx:alpine
-COPY nginx /etc/nginx
-EXPOSE 443
+COPY common /etc/nginx
+COPY spa/nginx /etc/nginx
+EXPOSE 80 443
 VOLUME /etc/nginx/ssl /usr/share/nginx/html
 

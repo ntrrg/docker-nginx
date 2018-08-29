@@ -22,13 +22,13 @@ There are some files that may be included in any virtual server:
 
 #### Override the default virtual server
 
-```sh
+```shell-session
 EDITOR default.conf
 ```
 
 `default.conf`:
 
-```sh
+```shell-session
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
@@ -45,13 +45,13 @@ server {
 
 #### Listen in custom port
 
-```sh
+```shell-session
 EDITOR localhost8080.conf
 ```
 
 `localhost8080.conf`
 
-```sh
+```shell-session
 server {
   listen 8080;
   listen [::]:8080;
@@ -67,7 +67,7 @@ server {
 }
 ```
 
-```sn
+```shell-session
 echo > example.com.conf
 ```
 

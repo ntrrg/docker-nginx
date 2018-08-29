@@ -6,7 +6,7 @@ and gzip compression; and `/` which is a proxy to the backend service
 (`localhost:3000`), with encryption and a cache zone. All the traffic from the
 `80` port is redirected to the `443` port.
 
-```sh
+```shell-session
 docker run \
   --network host \
   [-v /path/to/upstream:/etc/nginx/conf.d/upstream.conf] \
@@ -18,8 +18,8 @@ ntrrg/nginx:mpa
 The certs folder should contain the `privkey.pem` and `fullchain.pem`. If no
 certs are given, this image will use self signed certificates.
 
-**Warning:** compression must be disabled when secrets data will be
-transferred (BREACH).
+**Warning:** compression must be disabled when secret data will be transferred
+(BREACH).
 
 ## Customize
 
@@ -29,11 +29,11 @@ scope, use [Reverse Proxy](../rproxy) instead.
 
 ### Disable HTTP cache (static)
 
-```sh
+```shell-session
 echo "expires 0;" > disable-http-cache.conf
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/disable-http-cache.conf:/etc/nginx/conf.d/cache-control.conf \
@@ -42,11 +42,11 @@ ntrrg/nginx:mpa
 
 ### Disable compression (static)
 
-```sh
+```shell-session
 echo "gzip off;" > disable-gzip.conf
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/disable-gzip.conf:/etc/nginx/conf.d/gzip.conf \
@@ -55,18 +55,18 @@ ntrrg/nginx:mpa
 
 ### Enable authentication (dynamic)
 
-```sh
+```shell-session
 cat <<EOF > enable-auth.conf
 auth_basic "Web realm";
 auth_basic_user_file /etc/htpasswd;
 EOF
 ```
 
-```sh
+```shell-session
 docker run --rm ntrrg/htpasswd -B USER PASSWORD > htpasswd
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/enable-auth.conf:/etc/nginx/conf.d/auth.conf \
@@ -78,11 +78,11 @@ ntrrg/nginx:mpa
 
 #### Disable cache zone
 
-```sh
+```shell-session
 echo > disable-proxy-cache.conf
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/disable-proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
@@ -97,11 +97,11 @@ ntrrg/nginx:mpa
 
 #### Different port
 
-```sh
+```shell-session
 echo "server 127.0.0.1:8080;" > upstream.conf
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/upstream.conf:/etc/nginx/conf.d/upstream.conf \
@@ -110,11 +110,11 @@ ntrrg/nginx:mpa
 
 #### UNIX Domain Sockets
 
-```sh
+```shell-session
 echo "server unix:/run/app.sock;" > upstream.conf
 ```
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -125,13 +125,15 @@ ntrrg/nginx:mpa
 
 #### Load balancing
 
-```sh
-echo "server 127.0.0.1:3000;
+```shell-session
+$ cat <<EOF > upstream.conf
+server 127.0.0.1:3000;
 server unix:/run/app.sock;
-server 127.0.0.1:3001;" > upstream.conf
+server 127.0.0.1:3001;
+EOF
 ```
 
-```sh
+```shell-session
 docker run \
   --network host \
   -v ${PWD}/upstream.conf:/etc/nginx/conf.d/upstream.conf \
@@ -140,6 +142,5 @@ ntrrg/nginx:mpa
 
 ## Acknowledgment
 
-**Nathan Long.** *To avoid BREACH, can we use gzip on non-token responses?.*
-https://security.stackexchange.com/a/172646
+**Nathan Long.** *To avoid BREACH, can we use gzip on non-token responses?.* https://security.stackexchange.com/a/172646
 

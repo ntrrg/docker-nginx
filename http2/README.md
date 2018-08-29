@@ -5,7 +5,7 @@ cache headers, auto-indexing (display files in folders without an `index.html`)
 and gzip compression. All the traffic from the 80 port is redirected to the 443
 port.
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -17,8 +17,8 @@ ntrrg/nginx:http2
 The certs folder should contain the `privkey.pem` and `fullchain.pem`. If no
 certs are given, this image will use self signed certificates.
 
-**Warning:** compression must be disabled when secrets files will be
-transferred (BREACH).
+**Warning:** compression must be disabled when secret data will be transferred
+(BREACH).
 
 ## Customize
 
@@ -28,11 +28,11 @@ of scope, use [Reverse Proxy](../rproxy) instead.
 
 ### Disable HTTP cache
 
-```sh
+```shell-session
 echo "expires 0;" > disable-http-cache.conf
 ```
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -42,11 +42,11 @@ ntrrg/nginx:http2
 
 ### Disable auto-indexing
 
-```sh
+```shell-session
 echo "index index.html;" > disable-auto-indexing.conf
 ```
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -56,11 +56,11 @@ ntrrg/nginx:http2
 
 ### Disable compression
 
-```sh
+```shell-session
 echo "gzip off;" > disable-gzip.conf
 ```
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -70,18 +70,18 @@ ntrrg/nginx:http2
 
 ### Enable authentication
 
-```sh
+```shell-session
 cat <<EOF > enable-auth.conf
 auth_basic "Web realm";
 auth_basic_user_file /etc/htpasswd;
 EOF
 ```
 
-```sh
+```shell-session
 docker run --rm ntrrg/htpasswd -B USER PASSWORD > htpasswd
 ```
 
-```sh
+```shell-session
 docker run \
   -p 80:80 \
   -p 443:443 \
@@ -92,6 +92,5 @@ ntrrg/nginx:http2
 
 ## Acknowledgment
 
-**Nathan Long.** *To avoid BREACH, can we use gzip on non-token responses?.*
-https://security.stackexchange.com/a/172646
+**Nathan Long.** *To avoid BREACH, can we use gzip on non-token responses?.* https://security.stackexchange.com/a/172646
 

@@ -1,13 +1,19 @@
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ntrrg/docker-nginx/raw/master/LICENSE)
+[![Docker Build Status](https://img.shields.io/docker/build/ntrrg/nginx.svg)](https://store.docker.com/community/images/ntrrg/nginx/)
 
-This is a set of NGINX configurations for specific purposes.
+| Tag | Status |
+|-:|:-|
+| `http` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:http.svg)](https://microbadger.com/images/ntrrg/nginx:http) |
+| `http2` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:http2.svg)](https://microbadger.com/images/ntrrg/nginx:http2) |
+| `spa` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:spa.svg)](https://microbadger.com/images/ntrrg/nginx:spa) |
+| `mpa` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:mpa.svg)](https://microbadger.com/images/ntrrg/nginx:mpa) |
+| `rproxy` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:rproxy.svg)](https://microbadger.com/images/ntrrg/nginx:rproxy) |
+| `transport-rproxy` ([Dockerfile](http.Dockerfile)) | [![](https://images.microbadger.com/badges/image/ntrrg/nginx:transport-rproxy.svg)](https://microbadger.com/images/ntrrg/nginx:transport-rproxy) |
 
-* [Static files with HTTP](http/): web pages, SPAs, files hosting or anything
-  without a backend. 
+* [Static files with HTTP](http/): web sites or anything without a backend.
 
 * [Static files with HTTP2](http2/): same as above, but with encryption.
 
-* [Single Page Application](spa/): complex SPAs (backend, prerendering, etc...).
+* [Single Page Application](spa/): SPAs with API proxy.
 
 * [Multiple Page Application](mpa/): web frameworks (Django, Ruby on Rails,
   etc...), CMS, ERP or any web application rendered by a backend.
@@ -15,13 +21,8 @@ This is a set of NGINX configurations for specific purposes.
 * [Reverse proxy](rproxy/): redirections, load balancing or any other usage
   (this one is highly customizable).
 
-* [TPC/UDP reverse proxy](transport-rproxy/): same as above, but in the
-  transport layer (databases, ssh, etc...).
-
-## TODO
-
-* Benchmark the images.
-* Add automated tests.
+* [TPC/UDP reverse proxy](transport-rproxy/): same as above, but at transport
+  layer (databases, ssh, etc...).
 
 ## Acknowledgment
 

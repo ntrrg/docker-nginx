@@ -1,6 +1,6 @@
 `/etc/nginx/servers/dns.conf`:
 
-```
+```text
 upstream dns_servers {
   server 192.168.0.50:53;
   server 192.168.0.105:53;
@@ -15,7 +15,7 @@ server {
 
 `/etc/nginx/servers/ssh.conf`:
 
-```
+```text
 server {
   listen 23;
   listen [::]:23;
