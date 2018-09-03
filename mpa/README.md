@@ -91,7 +91,105 @@ ntrrg/nginx:mpa
 
 #### Set custom cache key
 
-#### Set custom options 
+```shell-session
+$ cat <<EOF > proxy-cache.conf
+proxy_cache_key $scheme$proxy_host$uri$is_args$args;
+proxy_cache my_cache_zone;
+EOF
+```
+
+```shell-session
+docker run \
+  --network host \
+  -v ${PWD}/proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
+ntrrg/nginx:mpa
+```
+
+#### Set cache bypassing
+
+The following configuration disables cache for request with a `nocache` cookie
+or a `?nocache=true` query argument.
+
+```shell-session
+$ cat <<EOF > proxy-cache.conf
+proxy_cache_bypass $cookie_nocache $arg_nocache;
+proxy_cache my_cache_zone;
+EOF
+```
+
+```shell-session
+docker run \
+  --network host \
+  -v ${PWD}/proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
+ntrrg/nginx:mpa
+```
+
+#### Set custom cache zone
+
+```shell-session
+$ cat <<EOF > cache-zone.conf
+proxy_cache_path /var/cache/site-cache
+  levels=1:2
+  keys_zone=twogb_cache_zone:10m
+  max_size=2g
+  inactive=12h
+  use_temp_path=off;
+EOF
+```
+
+```shell-session
+$ echo "proxy_cache twogb_cache_zone;" > proxy-cache.conf
+```
+
+```shell-session
+docker run \
+  --network host \
+  -v ${PWD}/cache-zone.conf:/etc/nginx/conf.d/cache-zones/cache-zone.conf \
+  -v ${PWD}/proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
+ntrrg/nginx:mpa
+```
+
+#### Split cache across multiple devices
+
+```shell-session
+$ cat <<EOF > cache-zones.conf
+proxy_cache_path /media/ntrrg/dev1
+  levels=1:2
+  keys_zone=dev1_cache:10m
+  inactive=12h
+  use_temp_path=off;
+
+proxy_cache_path /media/ntrrg/dev2
+  levels=1:2
+  keys_zone=dev2_cache:10m
+  inactive=12h
+  use_temp_path=off;
+
+proxy_cache_path /media/ntrrg/dev3
+  levels=1:2
+  keys_zone=dev3_cache:10m
+  inactive=12h
+  use_temp_path=off;
+
+split_clients $request_uri $my_distributed_cache {
+  30% “dev1_cache”;
+  30% “dev2_cache”;
+  20% “dev3_cache”;
+}
+EOF
+```
+
+```shell-session
+$ echo "proxy_cache $my_distributed_cache;" > proxy-cache.conf
+```
+
+```shell-session
+docker run \
+  --network host \
+  -v ${PWD}/cache-zones.conf:/etc/nginx/conf.d/cache-zones/default.conf \
+  -v ${PWD}/proxy-cache.conf:/etc/nginx/conf.d/proxy-cache.conf \
+ntrrg/nginx:mpa
+```
 
 ### Set custom upstream (dynamic)
 
