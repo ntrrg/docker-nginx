@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.15.3-alpine
 COPY common /etc/nginx
 COPY http/nginx /etc/nginx
 EXPOSE 80

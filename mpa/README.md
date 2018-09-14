@@ -174,7 +174,7 @@ proxy_cache_path /media/ntrrg/dev3
 split_clients $request_uri $my_distributed_cache {
   30% “dev1_cache”;
   30% “dev2_cache”;
-  20% “dev3_cache”;
+  * “dev3_cache”;
 }
 EOF
 ```
